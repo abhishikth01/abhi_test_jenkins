@@ -1,3 +1,7 @@
+provider "aws" {
+  region     = "${var.aws_region}"
+}
+
 resource "aws_iam_policy" "abhi_policy_tenant94_s3_readonly" {
     name = "abhi_policy_tenant94_s3_readonly"
     policy = <<EOF
