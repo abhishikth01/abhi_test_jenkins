@@ -2,6 +2,8 @@ provider "aws" {
   region     = "us-east-1"
 }
 
+variable "tenant_id" {}
+
 resource "aws_iam_policy" "abhi_policy_s3_readonly" {
     name = "abhi_policy_${var.tenant_id}_s3_readonly"
     policy = <<EOF
