@@ -66,6 +66,6 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "abhi_s3Ro_policy_attach" {
-    role       = "${aws_iam_role.abhi_role_${var.tenant}_support.name}"
+    role       = "${aws_iam_role.abhi_role_support.name}"
     policy_arn = "${aws_iam_policy.abhi_policy_s3_readonly.arn}"
 }
