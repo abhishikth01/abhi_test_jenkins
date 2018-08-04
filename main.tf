@@ -1,5 +1,5 @@
 provider "aws" {
-  region     = "us-east1"
+  region     = "us-east-1"
 }
 
 resource "aws_iam_policy" "abhi_policy_s3_readonly" {
