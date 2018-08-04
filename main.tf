@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_iam_policy" "abhi_policy_s3_readonly" {
-    name = "abhi_policy_${var.tenant}_s3_readonly"
+    name = "abhi_policy_${var.tenant_id}_s3_readonly"
     policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -22,7 +22,7 @@ resource "aws_iam_policy" "abhi_policy_s3_readonly" {
             "Resource": "arn:aws:s3:::abhi-ppv-appdata",
             "Condition": {
                 "StringLike": {
-                    "s3:prefix": ["","abhi-con-${var.tenant}/*"],
+                    "s3:prefix": ["","abhi-con-${var.tenant_id}/*"],
                     "s3:delimiter": ["/"]
                 }
             }
@@ -31,8 +31,8 @@ resource "aws_iam_policy" "abhi_policy_s3_readonly" {
             "Effect": "Allow",
             "Action": "s3:Get*",
             "Resource": [
-                "arn:aws:s3:::abhi-ppv-appdata/abhi-con-${var.tenant}/",
-                "arn:aws:s3:::abhi-ppv-appdata/abhi-con-${var.tenant}/*"
+                "arn:aws:s3:::abhi-ppv-appdata/abhi-con-${var.tenant_id}/",
+                "arn:aws:s3:::abhi-ppv-appdata/abhi-con-${var.tenant_id}/*"
             ]
         }
     ]
@@ -42,7 +42,7 @@ EOF
 
 
 resource "aws_iam_role" "abhi_role_support" {
-  name = "abhi_role_${var.tenant}_support"
+  name = "abhi_role_${var.tenant_id}_support"
 
   assume_role_policy = <<EOF
 {
