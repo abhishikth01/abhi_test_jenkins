@@ -4,7 +4,7 @@ provider "aws" {
 
 variable "tenant_id" {}
 
-resource "aws_iam_policy" "abhi_policy_s3_readonly" {
+resource "aws_iam_policy" "abhi_policy_${var.tenant_id}_s3_readonly" {
     name = "abhi_policy_${var.tenant_id}_s3_readonly"
     policy = <<EOF
 {
@@ -43,7 +43,7 @@ EOF
 }
 
 
-resource "aws_iam_role" "abhi_role_support" {
+resource "aws_iam_role" "abhi_role_${var.tenant_id}_support" {
   name = "abhi_role_${var.tenant_id}_support"
 
   assume_role_policy = <<EOF
@@ -67,7 +67,25 @@ resource "aws_iam_role" "abhi_role_support" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "abhi_s3Ro_policy_attach" {
-    role       = "${aws_iam_role.abhi_role_support.name}"
-    policy_arn = "${aws_iam_policy.abhi_policy_s3_readonly.arn}"
+resource "aws_iam_role_policy_attachment" "abhi_s3_${var.tenant_id}_policy_attach" {
+    role       = "${aws_iam_role.abhi_role_${var.tenant_id}_support.name}"
+    policy_arn = "${aws_iam_policy.abhi_policy_${var.tenant_id}_s3_readonly.arn}"
+}
+
+resource "aws_s3_bucket" "b" {
+  bucket = "my-tf-test-bucket"
+  acl    = "private"
+  region = "us-east-1"
+
+  tags {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+
+resource "aws_s3_bucket_object" "folder" {
+    bucket = "${aws_s3_bucket.b.id}"
+    acl    = "private"
+    key    = "${var.tenant_id}/"
+    source = "/dev/null"
 }
